@@ -377,12 +377,9 @@ DEPENDENCIES
   bundler-audit
   capybara
   debug
-<<<<<<< HEAD
   image_processing (~> 2.0)
-=======
   dotenv-rails
   image_processing (~> 1.2)
->>>>>>> 0cfa169 (Configured env files and postgresql db)
   importmap-rails
   jbuilder
   kamal
