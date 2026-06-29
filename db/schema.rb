@@ -64,7 +64,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_29_120006) do
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
     t.uuid "department_id"
-    t.string "email", null: false
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "name", null: false
     t.string "role", default: "citizen", null: false

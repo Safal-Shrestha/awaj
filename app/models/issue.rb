@@ -33,7 +33,7 @@ class Issue < ApplicationRecord
       transitions from: :resolved, to: :verified
     end
     event :reopen do
-      transitions from: [:resolved, :verified], to: :reopened
+      transitions from: [ :resolved, :verified ], to: :reopened
     end
 
     after_all_transitions :log_status_change

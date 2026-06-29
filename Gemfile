@@ -68,3 +68,8 @@ end
 group :development, :test do
   gem "dotenv-rails"
 end
+
+gem "devise", "~> 5.0"
+
+gem "aasm", "~> 5.5"
+gem "pundit", "~> 2.5"
