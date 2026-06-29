@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  issue_id: 
+  user_id: 
+  from_state: MyString
+  to_state: MyString
+  description: MyString
+
+two:
+  issue_id: 
+  user_id: 
+  from_state: MyString
+  to_state: MyString
+  description: MyString
