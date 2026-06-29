@@ -2,7 +2,7 @@ class User < ApplicationRecord
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
     devise :database_authenticatable, :registerable, :validatable
-    enum role: { citizen: "citizen", ward_officer: "ward_officer", admin: "admin" }
+    enum :role { citizen: "citizen", ward_officer: "ward_officer", admin: "admin" }
 
     belongs_to :department, optional: true
     has_many :issues, dependent: :nullify # In case hard delete is ever perfored by admin
