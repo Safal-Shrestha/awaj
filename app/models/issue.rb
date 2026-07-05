@@ -24,7 +24,7 @@ class Issue < ApplicationRecord
       transitions from: :reported, to: :acknowledged
     end
     event :start_progress do
-      transitions from: :acknowledged, to: :in_progress
+      transitions from: [ :acknowledged, :reopened ], to: :in_progress
     end
     event :resolve do
       transitions from: :in_progress, to: :resolved
@@ -33,7 +33,7 @@ class Issue < ApplicationRecord
       transitions from: :resolved, to: :verified
     end
     event :reopen do
-      transitions from: [ :resolved, :verified ], to: :reopened
+      transitions from: :resolved, to: :reopened
     end
 
     after_all_transitions :log_status_change
