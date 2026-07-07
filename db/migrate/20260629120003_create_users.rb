@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration[8.1]
       t.string :email, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
       t.references :department, type: :uuid, null: true, foreign_key: true
-      t.string :role, null: false, default: "citizen"
+      t.string :role, null: false, default: "user"
       t.datetime :deleted_at
 
       t.timestamps
