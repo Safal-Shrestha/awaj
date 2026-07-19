@@ -8,6 +8,8 @@
   <% @issues.each do |issue| %>
     <li>
       <%= link_to issue.title, issue %>
+      by
+      <%= issue.reporter_display_name %>
       <%= issue.status.humanize %>
       <%= render "votes/vote_button", issue: issue, voted: @voted_issue_ids.include?(issue.id) %>
     </li>
