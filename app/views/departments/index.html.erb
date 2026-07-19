@@ -8,7 +8,7 @@
   <% @departments.each do |department| %>
     <%= render department %>
     <p>
-      <%= link_to department.department_name, department %> 
+      <%= department.department_name %> 
     </p>
     <p>
       <%= link_to "Show this department", department %>

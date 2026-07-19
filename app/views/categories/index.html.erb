@@ -1,0 +1,18 @@
+<% if policy(Category).new? %>
+  <%= link_to "New Category", new_category_path %>
+<% end %>
+
+<h1>Categories</h1>
+
+<div id ="categories">
+  <% @categories.each do |category| %>
+    <%= render category %>
+    <p>
+      <%= category.name %>: 
+      <%= category.description %>
+    </p>
+    <p><% if policy(category).update? %>
+      <%= link_to "Edit", edit_category_path(category) %>
+    <% end %>
+  <% end %>
+</div>

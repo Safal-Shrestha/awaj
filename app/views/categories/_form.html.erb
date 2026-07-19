@@ -1,0 +1,38 @@
+<%= form_with(model: category) do |form| %>
+  <% if category.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
+
+      <ul>
+        <% category.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <p><%= form.label :name %><br /></p>
+    <p><%= form.text_field :name, autofocus: true, autocomplete: "name" %></p>
+  </div>
+
+  <div class="field">
+    <p><%= form.label :description %><br /></p>
+    <p><%= form.text_field :description, autofocus: true, autocomplete: "description" %></p>
+  </div>
+
+  <div class="field">
+    <p><%= form.label :department_id %></p>
+    <p>
+      <%= form.collection_select :department_id,
+                                @departments,
+                                :id,
+                                :department_name,
+                                prompt: "Select Department" %>
+    </p>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
