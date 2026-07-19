@@ -1,5 +1,5 @@
 class CategoryPolicy < AdminManagedPolicy
     def index?
-        user.modertor? || admin?
+        user.moderator? || admin?
     end
 end

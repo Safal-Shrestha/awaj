@@ -30,7 +30,7 @@ class AdminManagedPolicy < ApplicationPolicy
   private 
 
   def admin?
-    return false if ( user.nil? || user.moderator? || user.admin? )
-    return true if ( user.present? && user&.user? )
+    return false if ( user.nil? || user.moderator? || user&.user? )
+    return true if ( user.present? && user.admin? )
   end
 end

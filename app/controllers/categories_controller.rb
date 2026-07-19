@@ -5,6 +5,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories or /categories.json
   def index
+    authorize Category
     @categories = policy_scope(Category).order(:name)
   end
 

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  get "git/status"
+  root "pages#home"
+  
+  get "pages/home"
   resources :categories, except: :show
   resources :departments
   devise_for :users
