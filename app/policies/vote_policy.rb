@@ -1,12 +1,9 @@
 class VotePolicy < ApplicationPolicy
-  def vote?
-    user.present? && user == record.user
+  def create?
+    user.present? && user&.user?
   end
 
-  class Scope < ApplicationPolicy::Scope
-    # NOTE: Be explicit about which records you allow access to!
-    def resolve
-      scope.all
-    end
+  def destroy?
+    user.present? && record.user_id == user.id
   end
 end

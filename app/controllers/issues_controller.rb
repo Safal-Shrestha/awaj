@@ -5,6 +5,7 @@ class IssuesController < ApplicationController
   # GET /issues or /issues.json
   def index
     @issues = policy_scope(Issue).order(:created_at)
+    @voted_issue_ids = current_user ? current_user.votes.where(issue_id: @issues.map(&:id)).pluck(:issue_id).to_set : Set.new
   end
 
   # GET /issues/1 or /issues/1.json

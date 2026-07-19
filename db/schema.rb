@@ -56,7 +56,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_29_120006) do
     t.datetime "updated_at", null: false
     t.uuid "user_id"
     t.datetime "verified_at"
+    t.integer "votes_count", default: 0, null: false
     t.index ["category_id"], name: "index_issues_on_category_id"
+    t.index ["status"], name: "index_issues_on_status"
     t.index ["user_id"], name: "index_issues_on_user_id"
   end
 

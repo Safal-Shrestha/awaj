@@ -1,9 +1,13 @@
 <%= form_with model: @issue, local: true, data: { controller: "department-category" } do |f| %>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
+  <div class="field"
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
 
-  <%= f.label :description %>
-  <%= f.text_area :description %>
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
 
   <div class="field">
     <%= label_tag :department_filter, "Department" %>
@@ -19,6 +23,11 @@
           options_for_select(@categories.map { |c| [c.name, c.id, { data: { department_id: c.department_id } }] }),
           { include_blank: "Select a department first" },
           { data: { "department-category-target": "category" }, disabled: true } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :anonymous, "Anonymous: " %>
+    <%= f.check_box :active %>
   </div>
 
   <%= f.submit "Report Issue" %>

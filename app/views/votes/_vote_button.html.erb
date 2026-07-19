@@ -1,0 +1,11 @@
+<div data-controller="vote"
+     data-vote-voted-value="<%= voted %>"
+     data-vote-count-value="<%= issue.votes_count %>"
+     data-vote-url-value="<%= issue_vote_path(issue) %>">
+  <button type="button"
+          data-action="click->vote#toggle"
+          class="vote-btn">
+    <span data-vote-target="icon" class="vote-icon <%= "filled" if voted %>">▲</span>
+    <span data-vote-target="count"><%= issue.votes_count %></span>
+  </button>
+</div>

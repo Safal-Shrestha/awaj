@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       patch :verify
       patch :reopen
     end
+
+    resource :vote, only: [:create, :destroy]
   end
   
   get "pages/home"
