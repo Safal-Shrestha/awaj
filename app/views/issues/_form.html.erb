@@ -1,0 +1,25 @@
+<%= form_with model: @issue, local: true, data: { controller: "department-category" } do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :description %>
+  <%= f.text_area :description %>
+
+  <div class="field">
+    <%= label_tag :department_filter, "Department" %>
+    <%= select_tag :department_filter,
+          options_from_collection_for_select(@departments, :id, :department_name),
+          include_blank: "Select a department",
+          data: { "department-category-target": "department", action: "change->department-category#filter" } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :category_id, "Category" %>
+    <%= f.select :category_id,
+          options_for_select(@categories.map { |c| [c.name, c.id, { data: { department_id: c.department_id } }] }),
+          { include_blank: "Select a department first" },
+          { data: { "department-category-target": "category" }, disabled: true } %>
+  </div>
+
+  <%= f.submit "Report Issue" %>
+<% end %>

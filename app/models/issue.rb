@@ -52,16 +52,16 @@ class Issue < ApplicationRecord
   def log_status_change
     issue_update.create!(
       user: acting_user,
-      from_status: aasm.from_state,
-      to_status: aasm.to_state
+      from_state: aasm.from_state,
+      to_state: aasm.to_state
     )
   end
 
   def log_initial_report
     issue_update.create!(
       user: user,
-      from_status: nil,
-      to_status: status
+      from_state: nil,
+      to_state: status
     )
   end
 end

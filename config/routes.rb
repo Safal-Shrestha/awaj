@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
   root "pages#home"
+
+  resources :issues, only: %i[index show new create] do
+    member do
+      patch :acknowledge
+      patch :start_progress
+      patch :resolve
+      patch :verify
+      patch :reopen
+    end
+  end
   
   get "pages/home"
   resources :categories, except: :show

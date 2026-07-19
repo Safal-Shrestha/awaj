@@ -21,7 +21,7 @@ class IssuePolicy < ApplicationPolicy
   end
 
   def verify?
-    user.present? && (user == record.user || user.admin?)
+    user.present? && user&.user?
   end
 
   def reopen?

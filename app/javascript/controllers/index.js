@@ -2,3 +2,6 @@
 import { application } from "controllers/application"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
+
+import DepartmentCategoryController from "controllers/department_category_controller"
+application.register("department-category", DepartmentCategoryController)

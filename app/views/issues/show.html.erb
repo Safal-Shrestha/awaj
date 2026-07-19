@@ -1,0 +1,28 @@
+<h1><%= @issue.title %></h1>
+
+<p><strong>Status:</strong> <%= @issue.status.humanize %></p>
+<p><%= @issue.description %></p>
+
+<div class="issue-actions">
+  <% if policy(@issue).acknowledge? %>
+    <%= button_to "Acknowledge", acknowledge_issue_path(@issue), method: :patch %>
+  <% end %>
+
+  <% if policy(@issue).start_progress? %>
+    <%= button_to "Start Progress", start_progress_issue_path(@issue), method: :patch %>
+  <% end %>
+
+  <% if policy(@issue).resolve? %>
+    <%= button_to "Resolve", resolve_issue_path(@issue), method: :patch %>
+  <% end %>
+
+  <% if policy(@issue).verify? %>
+    <%= button_to "Verify", verify_issue_path(@issue), method: :patch,
+          form: { data: { turbo_confirm: "Confirm this issue is resolved?" } } %>
+  <% end %>
+
+  <% if policy(@issue).reopen? %>
+    <%= button_to "Reopen", reopen_issue_path(@issue), method: :patch,
+          form: { data: { turbo_confirm: "Reopen this issue?" } } %>
+  <% end %>
+</div>
