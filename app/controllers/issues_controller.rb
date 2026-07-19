@@ -46,31 +46,31 @@ class IssuesController < ApplicationController
   end
 
   def start_progress
-    perform_transition(:start_progress)
+    perform_transition!(:start_progress)
   end
 
   def resolve
-    perform_transition(:resolve)
+    perform_transition!(:resolve)
   end
 
   def verify
-    perform_transition(:verify)
+    perform_transition!(:verify)
   end
 
   def reopen
-    perform_transition(:reopen)
+    perform_transition!(:reopen)
   end
 
   private
 
     def perform_transition!(event)
-      authorize @issue, "#{event}>\?"
+      authorize @issue, "#{event}\?"
 
       if @issue.public_send("#{event}!")
         redirect_to @issue, notice: "Issue #{event.to_s.humanize.downcase} succeeded."
       end
 
-    rescue AASM::InvalidTransiton
+    rescue AASM::InvalidTransition
       redirect_to @issue, alert: "This issue can't be #{event.to_s.humanize.downcase}d from it current state."
     end
 

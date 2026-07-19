@@ -8,7 +8,7 @@
   <% @issues.each do |issue| %>
     <li>
       <%= link_to issue.title, issue %>
-      — <%= issue.aasm_state.humanize %>
+      — <%= issue.status.humanize %>
     </li>
   <% end %>
 </ul>
