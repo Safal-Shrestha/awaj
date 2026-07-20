@@ -6,6 +6,8 @@ class Issue < ApplicationRecord
   has_many :votes, dependent: :delete_all
   has_many :issue_update, dependent: :delete_all
 
+  after_create_commit -> { broadcast_prepend_to "issues", target: "issues-list", partial: "issues/issue", locals: { issue: self } }
+
   delegate :department, to: :category
 
   attr_accessor :acting_user

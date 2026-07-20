@@ -25,7 +25,7 @@ class IssuePolicy < ApplicationPolicy
   end
 
   def reopen?
-    if user.admin?
+    if user.present? && user.admin?
       return true
     end
 

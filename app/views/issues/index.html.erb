@@ -1,10 +1,22 @@
-<h1>Issues</h1>
+<h1>Awaj</h1>
+
+<div class="auth-bar">
+  <% if user_signed_in? %>
+    <span>Welcome, <%= current_user.name %>!</span>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+  <% else %>
+    <%= link_to "Login", new_user_session_path %>
+    |
+    <%= link_to "Sign Up", new_user_registration_path %>
+  <% end %>
+</div>
 
 <% if policy(Issue).create? %>
   <%= link_to "Report an Issue", new_issue_path, class: "btn-primary" %>
 <% end %>
 
-<ul>
+<%= turbo_stream_from "issues" %>
+<ul id="issues-list">
   <% @issues.each do |issue| %>
     <li>
       <%= link_to issue.title, issue %>

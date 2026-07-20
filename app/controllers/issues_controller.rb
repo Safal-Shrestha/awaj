@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_issue, only: %i[ show acknowledge start_progress resolve verify reopen ]
 
   # GET /issues or /issues.json
