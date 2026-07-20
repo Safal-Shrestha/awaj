@@ -1,27 +1,35 @@
-<h1>Awaj</h1>
-<div class="auth-bar">
-  <% if user_signed_in? %>
-    <span>Welcome, <%= current_user.name %>!</span>
-    <%= button_to "Logout", destroy_user_session_path, method: :delete %>
-  <% else %>
-    <%= link_to "Login", new_user_session_path %>
-    |
-    <%= link_to "Sign Up", new_user_registration_path %>
+<div class="max-w-3xl mx-auto px-4 py-6">
+  <header class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-brand">Awaj</h1>
+
+    <div class="flex items-center gap-3 text-sm">
+      <% if user_signed_in? %>
+        <span class="text-zinc-600">Welcome, <span class="font-medium text-zinc-900"><%= current_user.name %></span></span>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete,
+              class: "text-zinc-500 hover:text-brand underline-offset-2 hover:underline" %>
+      <% else %>
+        <%= link_to "Login", new_user_session_path, class: "text-zinc-600 hover:text-brand" %>
+        <span class="text-zinc-300">|</span>
+        <%= link_to "Sign Up", new_user_registration_path, class: "text-zinc-600 hover:text-brand" %>
+      <% end %>
+    </div>
+  </header>
+
+  <% if policy(Issue).create? %>
+    <%= link_to "Report an Issue", new_issue_path,
+          class: "inline-block mb-6 bg-brand text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-light transition-colors" %>
   <% end %>
+
+  <% if policy(Issue).vote? %>
+    <%= turbo_stream_from "issues" %>
+  <% else %>
+    <%= turbo_stream_from "issues_readonly" %>
+  <% end %>
+
+  <ul id="issues-list" class="divide-y divide-zinc-200 border-t border-zinc-200">
+    <%= render partial: "issues/issue",
+                collection: @issues,
+                as: :issue,
+                locals: { can_vote: policy(Issue).vote?, voted_issue_ids: @voted_issue_ids } %>
+  </ul>
 </div>
-
-<% if policy(Issue).create? %>
-  <%= link_to "Report an Issue", new_issue_path, class: "btn-primary" %>
-<% end %>
-
-<% if policy(Issue).vote? %>
-  <%= turbo_stream_from "issues" %>
-<% else %>
-  <%= turbo_stream_from "issues_readonly" %>
-<% end %>
-<ul id="issues-list">
-  <%= render partial: "issues/issue",
-              collection: @issues,
-              as: :issue,
-              locals: { can_vote: policy(Issue).vote?, voted_issue_ids: @voted_issue_ids } %>
-</ul>

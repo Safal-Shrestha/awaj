@@ -75,3 +75,5 @@ gem "aasm", "~> 5.5"
 gem "pundit", "~> 2.5"
 
 gem "redis", "~> 5.4"
+
+gem "tailwindcss-rails", "~> 4.6"

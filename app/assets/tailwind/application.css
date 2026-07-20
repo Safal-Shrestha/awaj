@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  /* Lifecycle status colors — used consistently for badges, borders, dashboard charts */
+  --color-status-reported: #71717a;      /* neutral gray — just logged */
+  --color-status-acknowledged: #d97706;  /* amber — seen, pending */
+  --color-status-in-progress: #2563eb;   /* blue — active work */
+  --color-status-resolved: #16a34a;      /* green — done */
+  --color-status-verified: #0d9488;      /* teal — community-confirmed */
+  --color-status-reopened: #dc2626;      /* red — needs attention again */
+
+  /* Brand / UI accent */
+  --color-brand: #1e3a5f;      /* deep blue — primary buttons, links, header */
+  --color-brand-light: #3b6ea5;
+
+  /* Font */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}

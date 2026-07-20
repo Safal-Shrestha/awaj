@@ -1,0 +1,7 @@
+<%
+  status_key = issue.status.dasherize
+%>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+             bg-status-<%= status_key %>/10 text-status-<%= status_key %>">
+  <%= issue.status.humanize %>
+</span>

@@ -4,8 +4,11 @@
      data-vote-url-value="<%= issue_vote_path(issue) %>">
   <button type="button"
           data-action="click->vote#toggle"
-          class="vote-btn">
-    <span data-vote-target="icon" class="vote-icon <%= "filled" if voted %>">▲</span>
+          class="flex items-center gap-1 rounded-md border border-zinc-200 px-2.5 py-1
+                 text-sm font-medium text-zinc-600 hover:border-brand hover:text-brand
+                 transition-colors">
+    <span data-vote-target="icon"
+          class="vote-icon <%= "text-brand" if voted %>">▲</span>
     <span data-vote-target="count" id="vote_count_<%= issue.id %>"><%= issue.votes_count %></span>
   </button>
 </div>

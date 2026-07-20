@@ -1,14 +1,26 @@
-<li id="<%= dom_id(issue) %>">
-  <%= link_to issue.title, issue %>
-  by
-  <%= issue.reporter_display_name %>
-  <%= issue.status.humanize %>
+<li id="<%= dom_id(issue) %>" class="border-b border-zinc-200 py-4 px-2 hover:bg-zinc-50 transition-colors">
+  <div class="flex items-start justify-between gap-4">
+    <div class="min-w-0">
+      <%= link_to issue.title, issue,
+            class: "text-base font-semibold text-zinc-900 hover:text-brand hover:underline" %>
+      <p class="mt-1 text-sm text-zinc-500">
+        by <span class="font-medium text-zinc-700"><%= issue.reporter_display_name %></span>
+      </p>
+    </div>
 
-  <% if local_assigns[:can_vote] %>
-    <%= render "votes/vote_button",
-                issue: issue,
-                voted: local_assigns[:voted_issue_ids]&.include?(issue.id) || false %>
-  <% else %>
-    <span id="vote_count_<%= issue.id %>">▲ <%= issue.votes_count %></span>
-  <% end %>
+    <div class="flex items-center gap-3 shrink-0">
+      <%= render "issues/status_badge", issue: issue %>
+
+      <% if local_assigns[:can_vote] %>
+        <%= render "votes/vote_button",
+                    issue: issue,
+                    voted: local_assigns[:voted_issue_ids]&.include?(issue.id) || false %>
+      <% else %>
+        <span id="vote_count_<%= issue.id %>"
+              class="flex items-center gap-1 text-sm text-zinc-500">
+          ▲ <%= issue.votes_count %>
+        </span>
+      <% end %>
+    </div>
+  </div>
 </li>
