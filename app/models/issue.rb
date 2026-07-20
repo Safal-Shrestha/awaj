@@ -10,8 +10,14 @@ class Issue < ApplicationRecord
     broadcast_prepend_to "issues",
     target: "issues-list",
     partial: "issues/issue",
-    locals: { issue: self, can_vote: true, voted_issue_ids: Set.new } 
+    locals: { issue: self, can_vote: true, voted_issue_ids: Set.new }
+
+    broadcast_prepend_to "issues_readonly",
+    target: "issues-list",
+    partial: "issues/issue",
+    locals: { issue: self, can_vote: false, voted_issue_ids: Set.new }
   }
+  after_update_commit :broadcast_status_change, if: :saved_change_to_status?
 
   delegate :department, to: :category
 
@@ -70,5 +76,17 @@ class Issue < ApplicationRecord
       from_state: nil,
       to_state: status
     )
+  end
+
+  def broadcast_status_change
+    broadcast_replace_to "issues",
+    target: ActionView::RecordIdentifier.dom_id(self),
+    partial: "issues/issue",
+    locals: { issue: self, can_vote: true, voted_issue_ids: Set.new }
+
+    broadcast_replace_to "issues_readonly",
+    target: ActionView::RecordIdentifier.dom_id(self),
+    partial: "issues/issue",
+    locals: { issue: self, can_vote: false, voted_issue_ids: Set.new }
   end
 end

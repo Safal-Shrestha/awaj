@@ -1,5 +1,4 @@
 <h1>Awaj</h1>
-
 <div class="auth-bar">
   <% if user_signed_in? %>
     <span>Welcome, <%= current_user.name %>!</span>
@@ -15,7 +14,11 @@
   <%= link_to "Report an Issue", new_issue_path, class: "btn-primary" %>
 <% end %>
 
-<%= turbo_stream_from "issues" %>
+<% if policy(Issue).vote? %>
+  <%= turbo_stream_from "issues" %>
+<% else %>
+  <%= turbo_stream_from "issues_readonly" %>
+<% end %>
 <ul id="issues-list">
   <%= render partial: "issues/issue",
               collection: @issues,

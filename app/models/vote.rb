@@ -10,10 +10,12 @@ class Vote < ApplicationRecord
 
   def broadcast_vote_count
     issue.reload
-    Turbo::StreamsChannel.broadcast_update_to(
-      "issues",
-      target: "vote_count_#{issue.id}",
-      html: issue.votes_count.to_s
-    )
+    %w[issues issues_readonly].each do |stream|
+      Turbo::StreamsChannel.broadcast_update_to(
+        stream,
+        target: "vote_count_#{issue.id}",
+        html: issue.votes_count.to_s
+      )
+    end
   end
 end
