@@ -73,3 +73,5 @@ gem "devise", "~> 5.0"
 
 gem "aasm", "~> 5.5"
 gem "pundit", "~> 2.5"
+
+gem "redis", "~> 5.4"

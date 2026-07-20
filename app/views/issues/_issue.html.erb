@@ -1,2 +1,11 @@
-<div id="<%= dom_id issue %>">
-</div>
+<li id="<%= dom_id(issue) %>">
+  <%= link_to issue.title, issue %>
+  by
+  <%= issue.reporter_display_name %>
+  <%= issue.status.humanize %>
+  <% if local_assigns[:can_vote] %>
+    <%= render "votes/vote_button",
+                issue: issue,
+                voted: local_assigns[:voted_issue_ids]&.include?(issue.id) || false %>
+  <% end %>
+</li>

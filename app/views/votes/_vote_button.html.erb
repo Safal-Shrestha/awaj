@@ -6,6 +6,6 @@
           data-action="click->vote#toggle"
           class="vote-btn">
     <span data-vote-target="icon" class="vote-icon <%= "filled" if voted %>">▲</span>
-    <span data-vote-target="count"><%= issue.votes_count %></span>
+    <span data-vote-target="count" id="vote_count_<%= issue.id %>"><%= issue.votes_count %></span>
   </button>
 </div>

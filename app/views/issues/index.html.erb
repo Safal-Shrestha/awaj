@@ -17,15 +17,8 @@
 
 <%= turbo_stream_from "issues" %>
 <ul id="issues-list">
-  <% @issues.each do |issue| %>
-    <li>
-      <%= link_to issue.title, issue %>
-      by
-      <%= issue.reporter_display_name %>
-      <%= issue.status.humanize %>
-      <% if policy(Issue).vote? %>
-        <%= render "votes/vote_button", issue: issue, voted: @voted_issue_ids.include?(issue.id) %>
-      <% end %>
-    </li>
-  <% end %>
+  <%= render partial: "issues/issue",
+              collection: @issues,
+              as: :issue,
+              locals: { can_vote: policy(Issue).vote?, voted_issue_ids: @voted_issue_ids } %>
 </ul>
