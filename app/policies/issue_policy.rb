@@ -34,6 +34,10 @@ class IssuePolicy < ApplicationPolicy
     end
   end
 
+  def vote?
+    user.present? && user&.user?
+  end
+
 
   class Scope < ApplicationPolicy::Scope
     def resolve

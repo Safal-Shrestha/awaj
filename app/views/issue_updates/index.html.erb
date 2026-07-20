@@ -1,0 +1,24 @@
+<h1 class="text-xl font-semibold mb-4">All Issue Updates</h1>
+
+<table class="min-w-full divide-y divide-gray-200">
+  <thead>
+    <tr>
+      <th class="px-4 py-2 text-left">Issue</th>
+      <th class="px-4 py-2 text-left">Actor</th>
+      <th class="px-4 py-2 text-left">State</th>
+      <th class="px-4 py-2 text-left">Description</th>
+      <th class="px-4 py-2 text-left">Updated At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @issue_updates.each do |update| %>
+      <tr>
+        <td class="px-4 py-2"><%= link_to update.issue.title, issue_path(update.issue) %></td>
+        <td class="px-4 py-2"><%= update.user&.name || "System" %></td>
+        <td class="px-4 py-2"><%= "#{update.from_state} → #{update.to_state}" %></td>
+        <td class="px-4 py-2"><%= update.issue.description %></td>
+        <td class="px-4 py-2"><%= update.updated_at.strftime("%b %d, %Y %H:%M") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
