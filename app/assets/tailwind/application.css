@@ -16,3 +16,14 @@
   /* Font */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
+
+.snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}

@@ -11,6 +11,7 @@ class IssuesController < ApplicationController
   # GET /issues/1 or /issues/1.json
   def show
     authorize @issue
+    @issue_updates = @issue.issue_update.order(created_at: :desc)
   end
 
   # GET /issues/new
@@ -66,6 +67,7 @@ class IssuesController < ApplicationController
 
     def perform_transition!(event)
       authorize @issue, "#{event}\?"
+      @issue.acting_user = current_user
 
       if @issue.public_send("#{event}!")
         redirect_to @issue, notice: "Issue #{event.to_s.humanize.downcase} succeeded."

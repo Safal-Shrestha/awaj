@@ -1,4 +1,155 @@
-<h1>Awaj</h1>
-<p>Community-driven civic issue tracking for Kathmandu wards.</p>
+<div data-controller="presentation" class="relative snap-container">
 
-<%= link_to "View Issues", issues_path, class: "btn-primary" %>
+  <!-- Scroll progress bar -->
+  <div class="fixed top-0 left-0 w-full h-1 bg-zinc-100 z-50">
+    <div data-presentation-target="progress"
+         class="h-full bg-brand origin-left scale-x-0"></div>
+  </div>
+
+  <!-- Nav (persistent, not part of scroll sections) -->
+  <div class="fixed top-4 right-4 z-50 flex items-center gap-3 text-sm">
+    <% if user_signed_in? %>
+      <%= link_to "Go to Dashboard", issues_path,
+            class: "bg-brand text-white px-4 py-2 rounded-md font-medium hover:bg-brand-light transition-colors" %>
+    <% else %>
+      <%= link_to "Login", new_user_session_path, class: "text-zinc-600 hover:text-brand" %>
+      <%= link_to "View Issues", issues_path,
+            class: "bg-brand text-white px-4 py-2 rounded-md font-medium hover:bg-brand-light transition-colors" %>
+    <% end %>
+  </div>
+
+  <!-- Section 1: Hook & Problem -->
+  <section data-presentation-target="section" data-section="hook"
+            class="relative overflow-hidden h-screen flex flex-col items-center justify-center px-6 text-center bg-white snap-section">
+    <div data-presentation-target="blob" data-speed="0.4"
+         class="absolute -z-10 top-1/4 left-1/4 w-96 h-96 bg-brand/10 rounded-full blur-3xl"></div>
+
+    <p data-reveal class="text-sm font-semibold text-brand uppercase tracking-widest mb-4">Awaj · आवाज</p>
+    <h1 data-reveal class="text-4xl md:text-6xl font-bold text-zinc-900 max-w-3xl leading-tight">
+      Reddit for civic issues, with a built-in accountability engine
+    </h1>
+    <p data-reveal class="mt-6 text-lg text-zinc-500 max-w-xl">
+      Hello Sarkar is a one-way complaint pipe — no citizen verification, no corroboration, no public data.
+    </p>
+    <p data-reveal class="mt-8 text-sm font-medium text-status-reopened bg-status-reopened/10 px-4 py-2 rounded-full">
+      <span data-count-to="12">0</span> complaints filed · only <span data-count-to="1">0</span> resolved in 3 months
+    </p>
+  </section>
+
+  <!-- Section 2: The Three Gaps -->
+  <section data-presentation-target="section" data-section="gaps"
+            class="h-screen flex flex-col items-center justify-center px-6 bg-zinc-50 snap-section">
+    <h2 class="text-3xl font-bold text-zinc-900 mb-10">The Three Gaps</h2>
+    <div class="grid gap-4 max-w-2xl w-full">
+      <div data-gap-row class="flex items-center justify-between bg-white border border-zinc-200 rounded-lg px-6 py-4">
+        <span data-gap-old class="text-zinc-400 line-through">Supervisor self-marking</span>
+        <span class="flex items-center gap-2">
+          <span data-gap-arrow class="text-brand">→</span>
+          <span data-gap-new class="text-brand font-medium">Citizen-controlled verification</span>
+        </span>
+      </div>
+      <div data-gap-row class="flex items-center justify-between bg-white border border-zinc-200 rounded-lg px-6 py-4">
+        <span data-gap-old class="text-zinc-400 line-through">Isolated complaints</span>
+        <span class="flex items-center gap-2">
+          <span data-gap-arrow class="text-brand">→</span>
+          <span data-gap-new class="text-brand font-medium">Community corroboration</span>
+        </span>
+      </div>
+      <div data-gap-row class="flex items-center justify-between bg-white border border-zinc-200 rounded-lg px-6 py-4">
+        <span data-gap-old class="text-zinc-400 line-through">Unenforced reporting</span>
+        <span class="flex items-center gap-2">
+          <span data-gap-arrow class="text-brand">→</span>
+          <span data-gap-new class="text-brand font-medium">Public accountability dashboard</span>
+        </span>
+      </div>
+    </div>
+    <p data-reveal class="mt-8 text-lg font-medium text-zinc-700 text-center">
+      Awaj answers: <span class="text-brand">"is this ward's government actually working?"</span>
+    </p>
+  </section>
+
+  <!-- Section 3: Issue Lifecycle -->
+  <section data-presentation-target="section" data-section="lifecycle"
+            class="h-screen flex flex-col items-center justify-center px-6 bg-white snap-section">
+    <h2 class="text-3xl font-bold text-zinc-900 mb-10">Issue Lifecycle</h2>
+
+    <div class="relative flex flex-wrap items-center justify-center gap-2 max-w-3xl">
+      <div data-lifecycle-line
+           class="absolute left-0 right-0 top-1/2 h-0.5 bg-brand/40 origin-left scale-x-0"></div>
+
+      <% %w[reported acknowledged in-progress resolved verified].each_with_index do |state, i| %>
+        <div data-lifecycle-pill class="relative flex items-center gap-2">
+          <span class="px-4 py-2 rounded-full text-sm font-medium bg-status-<%= state %>/10 text-status-<%= state %>">
+            <%= state.humanize %>
+          </span>
+          <% if i < 4 %><span class="text-zinc-300">→</span><% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-4 flex items-center gap-2 text-sm text-status-reopened">
+      <span data-lifecycle-branch class="origin-top scale-y-0">↳</span>
+      <span data-lifecycle-reopened class="px-4 py-2 rounded-full font-medium bg-status-reopened/10 opacity-0">Reopened</span>
+      <span>(branches from Resolved)</span>
+    </div>
+
+    <p data-reveal class="mt-10 text-zinc-600 max-w-xl text-center">
+      Only the original reporter can verify or reopen — enforced by an AASM state machine, not convention.
+      A 48-hour auto-verify window keeps the system moving.
+    </p>
+  </section>
+
+  <!-- Section 4: Architecture Snapshot -->
+  <section data-presentation-target="section" data-section="architecture"
+            class="h-screen flex flex-col items-center justify-center px-6 bg-zinc-50 snap-section">
+    <h2 class="text-3xl font-bold text-zinc-900 mb-10">Architecture Snapshot</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mb-8">
+      <% %w[Rails\ 7 PostgreSQL Devise Pundit AASM Hotwire Action\ Cable Tailwind].each do |tech| %>
+        <div data-tile class="bg-white border border-zinc-200 rounded-lg py-3 text-center text-sm font-medium text-zinc-700">
+          <%= tech %>
+        </div>
+      <% end %>
+    </div>
+    <ul class="max-w-xl space-y-2 text-zinc-600 text-sm">
+      <li data-reveal>→ AASM for lifecycle integrity</li>
+      <li data-reveal>→ Pundit for policy-locked verification</li>
+      <li data-reveal>→ Action Cable for the real-time home feed</li>
+    </ul>
+    <p data-reveal class="mt-6 text-xs text-zinc-400 max-w-md text-center">
+      WebSockets scoped deliberately to the home feed only — proves competency, protects timeline.
+    </p>
+  </section>
+
+  <!-- Section 5: MVP Demo Points -->
+  <section data-presentation-target="section" data-section="demo"
+            class="h-screen flex flex-col items-center justify-center px-6 bg-white snap-section">
+    <h2 class="text-3xl font-bold text-zinc-900 mb-10">What's Built</h2>
+    <div class="flex flex-col gap-3 max-w-md w-full">
+      <% ["Submit issue", "Upvote", "Moderator transition", "Citizen verify / reopen", "Department dashboard"].each do |step| %>
+        <div data-demo-item class="bg-status-in-progress/10 text-status-in-progress px-4 py-3 rounded-md text-sm font-medium">
+          <%= step %>
+        </div>
+      <% end %>
+    </div>
+    <p data-reveal class="mt-8 text-zinc-600 text-sm">Full audit trail visible on every issue detail page.</p>
+  </section>
+
+  <!-- Section 6: Future Scope & Close -->
+  <section data-presentation-target="section" data-section="future"
+            class="relative overflow-hidden h-screen flex flex-col items-center justify-center px-6 bg-zinc-50 text-center snap-section">
+    <div data-presentation-target="blob" data-speed="0.6"
+         class="absolute -z-10 bottom-0 right-1/4 w-80 h-80 bg-status-verified/10 rounded-full blur-3xl"></div>
+
+    <h2 class="text-3xl font-bold text-zinc-900 mb-6">Future Scope</h2>
+    <p data-reveal class="text-zinc-600 max-w-xl mb-8">
+      Photo upload, admin panel next sprint → multi-tenant SaaS, with Hello Sarkar as tenant zero, long-term.
+    </p>
+    <p data-reveal class="text-lg font-medium text-brand max-w-2xl">
+      "The single-tenant MVP isn't a dead end — it's the validated foundation for a domain-agnostic accountability platform."
+    </p>
+    <%= link_to "View Issues →", issues_path,
+          data: { future_cta: true },
+          class: "mt-10 inline-block bg-brand text-white px-6 py-3 rounded-md font-medium hover:bg-brand-light transition-colors" %>
+  </section>
+
+</div>

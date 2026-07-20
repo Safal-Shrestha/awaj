@@ -1,28 +1,60 @@
-<h1><%= @issue.title %></h1>
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <%= link_to "← Back to issues", issues_path, class: "text-sm text-zinc-500 hover:text-brand" %>
 
-<p><strong>Status:</strong> <%= @issue.status.humanize %></p>
-<p><%= @issue.description %></p>
+  <div class="mt-4 flex items-start justify-between gap-4">
+    <h1 class="text-2xl font-bold text-zinc-900"><%= @issue.title %></h1>
+    <%= render "issues/status_badge", issue: @issue %>
+  </div>
 
-<div class="issue-actions">
-  <% if policy(@issue).acknowledge? && @issue.may_acknowledge? %>
-    <%= button_to "Acknowledge", acknowledge_issue_path(@issue), method: :patch %>
-  <% end %>
+  <p class="mt-4 text-zinc-700 leading-relaxed"><%= @issue.description %></p>
 
-  <% if policy(@issue).start_progress? && @issue.may_start_progress? %>
-    <%= button_to "Start Progress", start_progress_issue_path(@issue), method: :patch %>
-  <% end %>
+  <div class="issue-actions mt-6 flex flex-wrap gap-2">
+    <% if policy(@issue).acknowledge? && @issue.may_acknowledge? %>
+      <%= button_to "Acknowledge", acknowledge_issue_path(@issue), method: :patch,
+            class: "bg-status-acknowledged/10 text-status-acknowledged text-sm font-medium px-3 py-1.5 rounded-md hover:bg-status-acknowledged/20 transition-colors" %>
+    <% end %>
+    <% if policy(@issue).start_progress? && @issue.may_start_progress? %>
+      <%= button_to "Start Progress", start_progress_issue_path(@issue), method: :patch,
+            class: "bg-status-in-progress/10 text-status-in-progress text-sm font-medium px-3 py-1.5 rounded-md hover:bg-status-in-progress/20 transition-colors" %>
+    <% end %>
+    <% if policy(@issue).resolve? && @issue.may_resolve? %>
+      <%= button_to "Resolve", resolve_issue_path(@issue), method: :patch,
+            class: "bg-status-resolved/10 text-status-resolved text-sm font-medium px-3 py-1.5 rounded-md hover:bg-status-resolved/20 transition-colors" %>
+    <% end %>
+    <% if policy(@issue).verify? && @issue.may_verify? %>
+      <%= button_to "Verify", verify_issue_path(@issue), method: :patch,
+            form: { data: { turbo_confirm: "Confirm this issue is resolved?" } },
+            class: "bg-status-verified/10 text-status-verified text-sm font-medium px-3 py-1.5 rounded-md hover:bg-status-verified/20 transition-colors" %>
+    <% end %>
+    <% if policy(@issue).reopen? && @issue.may_reopen? %>
+      <%= button_to "Reopen", reopen_issue_path(@issue), method: :patch,
+            form: { data: { turbo_confirm: "Reopen this issue?" } },
+            class: "bg-status-reopened/10 text-status-reopened text-sm font-medium px-3 py-1.5 rounded-md hover:bg-status-reopened/20 transition-colors" %>
+    <% end %>
+  </div>
 
-  <% if policy(@issue).resolve? && @issue.may_resolve? %>
-    <%= button_to "Resolve", resolve_issue_path(@issue), method: :patch %>
-  <% end %>
+  <div class="mt-10">
+    <h2 class="text-sm font-semibold text-zinc-500 uppercase tracking-wide mb-4">History</h2>
 
-  <% if policy(@issue).verify? && @issue.may_verify? %>
-    <%= button_to "Verify", verify_issue_path(@issue), method: :patch,
-          form: { data: { turbo_confirm: "Confirm this issue is resolved?" } } %>
-  <% end %>
-
-  <% if policy(@issue).reopen? && @issue.may_reopen? %>
-    <%= button_to "Reopen", reopen_issue_path(@issue), method: :patch,
-          form: { data: { turbo_confirm: "Reopen this issue?" } } %>
-  <% end %>
+    <ol class="relative border-l border-zinc-200 pl-4 space-y-6">
+      <% @issue_updates.each do |update| %>
+        <li class="relative">
+          <span class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-status-<%= update.to_state.dasherize %>"></span>
+          <p class="text-sm text-zinc-700">
+            <% if update.from_state.present? %>
+              Changed from
+              <span class="font-medium text-status-<%= update.from_state.dasherize %>"><%= update.from_state.humanize %></span>
+              to
+            <% else %>
+              Reported as
+            <% end %>
+            <span class="font-medium text-status-<%= update.to_state.dasherize %>"><%= update.to_state.humanize %></span>
+          </p>
+          <p class="text-xs text-zinc-400 mt-0.5">
+            <%= update.user&.name || "Anonymous" %> · <%= update.created_at.strftime("%b %d, %Y at %I:%M %p") %>
+          </p>
+        </li>
+      <% end %>
+    </ol>
+  </div>
 </div>
